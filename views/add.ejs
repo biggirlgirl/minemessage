@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>添加留言</title>
+</head>
+<body>
+<form action="/add" method="post">
+  <textarea name="content" id="content" cols="30" rows="10" placeholder="请输入你想输入的"></textarea>
+  <input type="submit" value="提交">
+</form>
+</body>
+</html>
+<script>
+  document.forms[0].onsubmit=function (e) {
+    e.preventDefault();
+    var data=new FormData(this);
+    var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function () {
+      if(xhr.readyState==4 && xhr.status==200){
+        //表单的内容已经发送成功了
+          console.log(xhr.responseText);
+          var result=JSON.parse(xhr.responseText);
+          alert(result.message);
+//          alert('留言成功');
+          location.href='/';
+
+//          window.setTimeout(function () {
+//              document.body.innerHTML(xhr.responseText);
+//          },3000)
+//        location.href='/';
+      }
+    }
+    xhr.open('post','/add');
+    xhr.send(data);
+  }
+</script>
